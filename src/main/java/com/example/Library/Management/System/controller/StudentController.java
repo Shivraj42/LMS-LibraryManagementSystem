@@ -19,6 +19,7 @@ public class StudentController {
 
         return studentService.addStudent(student);
         //return "Student added Successfully";
+
     }
     @GetMapping("/get")
     public ResponseEntity getStudent(@RequestParam int regNo){
@@ -30,4 +31,5 @@ public class StudentController {
             return  new ResponseEntity("Invalid Id!", HttpStatus.BAD_REQUEST);
         }
     }
+
 }
