@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name ="book")
+@Builder
 public class Book
 {
     @Id

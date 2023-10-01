@@ -16,12 +16,13 @@ import java.util.List;
 @Setter
 @Table(name = "author")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    String Name;
+    String name;
 
     @Column(nullable = false, unique = true)
     String email;

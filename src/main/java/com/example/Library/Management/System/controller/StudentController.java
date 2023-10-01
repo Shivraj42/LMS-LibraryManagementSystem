@@ -1,5 +1,7 @@
 package com.example.Library.Management.System.controller;
 
+import com.example.Library.Management.System.DTOs.requestDTOs.StudentRequest;
+import com.example.Library.Management.System.DTOs.responseDTOs.StudentResponse;
 import com.example.Library.Management.System.model.Student;
 import com.example.Library.Management.System.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,13 @@ public class StudentController {
     StudentService studentService;
 
     @PostMapping("/add")
-    public ResponseEntity addStudent(@RequestBody Student student){
+    public ResponseEntity addStudent(@RequestBody StudentRequest studentRequest){
 
-        return studentService.addStudent(student);
-        //return "Student added Successfully";
-
+        StudentResponse studentResponse= studentService.addStudent(studentRequest);
+        return  new ResponseEntity(studentResponse, HttpStatus.CREATED);
     }
+
+
     @GetMapping("/get")
     public ResponseEntity getStudent(@RequestParam int regNo){
         Student student= studentService.getStudent(regNo);
@@ -31,5 +34,13 @@ public class StudentController {
             return  new ResponseEntity("Invalid Id!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    // delete a student --> regNo
+
+    // update the age of a student  ---> regNo, age
+
+    // get all the students in the db  --> findAll()
+
+    // get list of all male students
 
 }

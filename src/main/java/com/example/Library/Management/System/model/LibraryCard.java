@@ -15,11 +15,13 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class LibraryCard {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int Id;
 
-    String CardId;
+    String CardId;         // UUID
 
     @Enumerated(EnumType.STRING)
     CardStatus cardStatus;

@@ -14,8 +14,10 @@ import javax.naming.Name;
 @Getter
 @Setter
 @Table(name = "student_info")
+@Builder
 public class Student {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int regId;
 
     @Column(name="student_name")
