@@ -5,8 +5,6 @@ import com.example.Library.Management.System.DTOs.responseDTOs.AuthorResponse;
 import com.example.Library.Management.System.DTOs.responseDTOs.BookResponse;
 import com.example.Library.Management.System.exception.AuthorNotFoundException;
 import com.example.Library.Management.System.exception.BookNotFoundException;
-import com.example.Library.Management.System.model.Author;
-import com.example.Library.Management.System.model.Book;
 import com.example.Library.Management.System.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

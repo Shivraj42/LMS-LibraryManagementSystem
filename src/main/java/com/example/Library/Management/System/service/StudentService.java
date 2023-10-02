@@ -3,6 +3,9 @@ package com.example.Library.Management.System.service;
 import com.example.Library.Management.System.DTOs.requestDTOs.StudentRequest;
 import com.example.Library.Management.System.DTOs.responseDTOs.StudentResponse;
 import com.example.Library.Management.System.Enums.CardStatus;
+import com.example.Library.Management.System.Enums.Gender;
+import com.example.Library.Management.System.Enums.Genre;
+import com.example.Library.Management.System.exception.StudentNotFoundException;
 import com.example.Library.Management.System.model.LibraryCard;
 import com.example.Library.Management.System.model.Student;
 import com.example.Library.Management.System.repository.StudentRepository;
@@ -13,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,12 +48,54 @@ public class StudentService {
 
     }
 
-    public Student getStudent(int regNo) {
-        Optional<Student> student= studentRepository.findById(regNo);
-        if(student.isPresent()){
-            return student.get();
+    public StudentResponse getStudent(int regNo) {
+        Optional<Student> studentOptional= studentRepository.findById(regNo);
+        if(studentOptional.isEmpty()){
+            throw new StudentNotFoundException("Invalid Registration Id!");
         }
-        return null;
+        Student student=studentOptional.get();
+        return StudentTransformer.StudentToStudentResponse(student);
     }
 
+    public String deleteByRegNo(int regNo) {
+        boolean isPresent= studentRepository.existsById(regNo);
+        if(!isPresent){
+            throw new StudentNotFoundException("Invalid Student Id!");
+        }
+        studentRepository.deleteById(regNo);
+        return "Student Deleted Successfully";
+    }
+
+    public String updateAge(int regNo, int newAge) {
+        Optional<Student> studentOptional= studentRepository.findById(regNo);
+        if(studentOptional.isEmpty()){
+            throw new StudentNotFoundException("Invalid Registration Number!");
+        }
+        Student student= studentOptional.get();
+        student.setAge(newAge);
+        studentRepository.save(student);
+        return "Age Updated Successfully!";
+    }
+
+    public List<StudentResponse> getAllStudent() {
+        List<Student> students= studentRepository.findAll();
+        List<StudentResponse> studentResponses= new ArrayList<>();
+        for (Student student:students){
+            studentResponses.add(StudentTransformer.StudentToStudentResponse(student));
+        }
+        return studentResponses;
+    }
+
+    public List<StudentResponse> getAllMaleStudent() {
+        List<Student> students= studentRepository.findByGender(Gender.MALE);
+        if (students.isEmpty()){
+            throw new StudentNotFoundException("No MALE student found!");
+        }
+        List<StudentResponse> studentResponses= new ArrayList<>();
+        for (Student student:students){
+            studentResponses.add(StudentTransformer.StudentToStudentResponse(student));
+        }
+        return studentResponses;
+
+    }
 }
