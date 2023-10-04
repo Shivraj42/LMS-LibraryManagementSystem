@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,10 +29,14 @@ public class Book
 
     int noOfPages;
 
+    boolean issued;
+
     Double cost;
 
     @ManyToOne
     @JoinColumn
     Author author;
 
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    List<Transaction> transactions=new ArrayList<>();
 }

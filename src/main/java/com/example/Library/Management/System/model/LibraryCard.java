@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -32,6 +34,9 @@ public class LibraryCard {
     @OneToOne
     @JoinColumn
     Student student;
+
+    @OneToMany(mappedBy = "libraryCard", cascade = CascadeType.ALL)
+    List<Transaction> transactions =new ArrayList<>();
 
 
 }
