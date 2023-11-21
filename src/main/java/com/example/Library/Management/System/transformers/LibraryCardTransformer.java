@@ -5,6 +5,7 @@ import com.example.Library.Management.System.Enums.CardStatus;
 import com.example.Library.Management.System.model.LibraryCard;
 import com.example.Library.Management.System.model.Student;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class LibraryCardTransformer {
@@ -12,6 +13,7 @@ public class LibraryCardTransformer {
     public static LibraryCard PrepareLibraryCard(){
         return LibraryCard.builder()
                 .cardStatus(CardStatus.ACTIVE)
+                .issuedBooks(new ArrayList<Integer>())
                 .CardId(UUID.randomUUID().toString())
                 .build();
     }

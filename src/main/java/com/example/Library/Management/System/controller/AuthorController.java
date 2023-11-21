@@ -38,7 +38,7 @@ public class AuthorController {
         }
     }
 
-    // Give me the names of all the books written by a partiular author
+    // Give me the names of all the books written by a particular author
 
     @GetMapping("/all-books-written-by-author")
     public ResponseEntity getAllBookWrittenByX(@RequestParam int id){

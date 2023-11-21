@@ -31,6 +31,8 @@ public class LibraryCard {
     @CreationTimestamp
     Date dateOfIssue;
 
+    List<Integer> issuedBooks= new ArrayList<>();       // list of book ids
+
     @OneToOne
     @JoinColumn
     Student student;
