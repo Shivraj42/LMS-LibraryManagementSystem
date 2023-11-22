@@ -1,14 +1,19 @@
 package com.example.Library.Management.System.service;
 
 import com.example.Library.Management.System.DTOs.requestDTOs.StudentRequest;
+import com.example.Library.Management.System.DTOs.responseDTOs.BookResponse;
 import com.example.Library.Management.System.DTOs.responseDTOs.StudentResponse;
 import com.example.Library.Management.System.Enums.CardStatus;
 import com.example.Library.Management.System.Enums.Gender;
 import com.example.Library.Management.System.Enums.Genre;
+import com.example.Library.Management.System.exception.BookNotFoundException;
 import com.example.Library.Management.System.exception.StudentNotFoundException;
+import com.example.Library.Management.System.model.Book;
 import com.example.Library.Management.System.model.LibraryCard;
 import com.example.Library.Management.System.model.Student;
+import com.example.Library.Management.System.repository.BookRepository;
 import com.example.Library.Management.System.repository.StudentRepository;
+import com.example.Library.Management.System.transformers.BookTransformer;
 import com.example.Library.Management.System.transformers.LibraryCardTransformer;
 import com.example.Library.Management.System.transformers.StudentTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,9 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    BookRepository bookRepository;
     public StudentResponse addStudent(StudentRequest studentRequest) {
 
 
@@ -97,5 +105,24 @@ public class StudentService {
         }
         return studentResponses;
 
+    }
+
+    public List<BookResponse> getAllBooksOnAccount(int regNo) {
+        Optional<Student> studentOptional= studentRepository.findById(regNo);
+        if(studentOptional.isEmpty()){
+            throw new StudentNotFoundException("Invalid Registration Number!");
+        }
+        Student student= studentOptional.get();
+        LibraryCard libraryCard= student.getLibraryCard();
+        List<BookResponse> books= new ArrayList<>();
+        for(int bookId: libraryCard.getIssuedBooks()){
+            Optional<Book> bookOptional= bookRepository.findById(bookId);
+            if(bookOptional.isEmpty()){
+                throw new BookNotFoundException("Invalid Book Id!");
+            }
+            BookResponse bookResponse= BookTransformer.BookToBookResponse(bookOptional.get());
+            books.add(bookResponse);
+        }
+        return books;
     }
 }

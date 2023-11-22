@@ -202,12 +202,12 @@ public class TransactionService {
 
         long milliSeconds= Math.abs(System.currentTimeMillis()-issueDate.getTime());  // calculate millisecond diff
 
-        long daysLate = TimeUnit.DAYS.convert(milliSeconds,TimeUnit.MILLISECONDS);
+        long daysLate = TimeUnit.DAYS.convert(milliSeconds,TimeUnit.MILLISECONDS)-15;
 
         double fineAmount=0.00;
 
-        if(daysLate>15){
-            fineAmount =(daysLate-15)*5.00;
+        if(daysLate>0){
+            fineAmount =(daysLate)*5.00;
         }
 
         // update transaction
@@ -252,7 +252,7 @@ public class TransactionService {
                 "- Pickup Location: " + pickupLocation + "\n" +
                 "- Return Date: " + returnDate + "\n" +
                 "- Days Late: " + daysLate + "\n" +
-                "- Fine Amount: $" + fineAmount + "\n\n" +
+                "- Fine Amount: Rs. " + fineAmount + "\n\n" +
                 "Ye have fulfilled yer duty in returning the book to " + pickupLocation + ". ";
 
         if (fineAmount > 0) {

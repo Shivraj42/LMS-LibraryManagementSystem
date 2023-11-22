@@ -1,6 +1,7 @@
 package com.example.Library.Management.System.controller;
 
 import com.example.Library.Management.System.DTOs.requestDTOs.StudentRequest;
+import com.example.Library.Management.System.DTOs.responseDTOs.BookResponse;
 import com.example.Library.Management.System.DTOs.responseDTOs.StudentResponse;
 import com.example.Library.Management.System.exception.StudentNotFoundException;
 import com.example.Library.Management.System.service.StudentService;
@@ -64,6 +65,19 @@ public class StudentController {
         }
     }
 
+    // get all books that student have currently
+    @GetMapping("/get/all_books")
+    public ResponseEntity getAllBooksOnAccount(@RequestParam int regNo){
+        try{
+            List<BookResponse> response= studentService.getAllBooksOnAccount(regNo);
+            return new ResponseEntity(response, HttpStatus.FOUND);
+        }
+        catch (RuntimeException e){
+            String response= e.getMessage();
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     // get all the students in the db  --> findAll()
     @GetMapping("/get/all")
     public ResponseEntity getAllStudent(){
@@ -83,5 +97,6 @@ public class StudentController {
             return new ResponseEntity(response, HttpStatus.NOT_FOUND);
         }
     }
+
 
 }
